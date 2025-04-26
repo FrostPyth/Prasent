@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เกี่ยวกับเรา - Prasent</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nunito Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+         <a href="/index" class="hover:text-[#f37335] transition">เครื่องมือวิเคราะห์การนำเสนอ</a>
+         <a href="/results" class="hover:text-[#f37335] transition">ผลการวิเคราะห์</a>
+         <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <header class="mb-10 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">เกี่ยวกับเรา</h1>
+      <p class="text-lg text-gray-300">
+        ทีมของเรามุ่งเน้นการใช้เทคโนโลยีเพื่อช่วยพัฒนาทักษะการนำเสนอและเสริมสร้างความมั่นใจของผู้พูด
+      </p>
+    </header>
+
+    <!-- Team Section -->
+    <section class="fade-up" style="animation-delay: 0.2s;">
+      <h2 class="text-3xl font-bold text-center mb-6">ทีมของเรา</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Card for Member 1 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow hover:shadow-lg transition">
+          <img src="{{ url_for('static', filename='Pond.jpg') }}" alt="สมาชิก 1" class="w-auto h-auto mx-auto rounded-full mb-4">
+          <h3 class="text-xl font-semibold text-center text-[#f37335]">นายธีรภัทร สุทธิภัทรพันธ์</h3>
+          <p class="text-center text-gray-300 mt-2">รหัสนักศึกษา 64130010360</p>
+        </div>
+        <!-- Card for Member 2 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow hover:shadow-lg transition">
+          <img src="{{ url_for('static', filename='Frost.jpg') }}" alt="สมาชิก 2" class="w-auto h-auto mx-auto rounded-full mb-4">
+          <h3 class="text-xl font-semibold text-center text-[#f37335]">นายปณวุฒิ ศุภนภาโสตถิ์</h3>
+          <p class="text-center text-gray-300 mt-2">รหัสนักศึกษา 64130010361</p>
+        </div>
+        <!-- Card for Member 3 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow hover:shadow-lg transition">
+          <img src="{{ url_for('static', filename='Deaw.jpg') }}" alt="สมาชิก 3" class="w-100 h-auto mx-auto rounded-full mb-4">
+          <h3 class="text-xl font-semibold text-center text-[#f37335]">นายภัทรดนัย คีรี</h3>
+          <p class="text-center text-gray-300 mt-2">รหัสนักศึกษา 64130010367</p>
+        </div>
+        <!-- Card for Member 4 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow hover:shadow-lg transition">
+          <img src="{{ url_for('static', filename='Job.jpg') }}" alt="สมาชิก 4" class="w-85 h-85 mx-auto rounded-full mb-4">
+          <h3 class="text-xl font-semibold text-center text-[#f37335]">นายสราวุฒิ อวิรุทธิ์จินดา</h3>
+          <p class="text-center text-gray-300 mt-2">รหัสนักศึกษา 64130010369</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="mt-12 fade-up" style="animation-delay: 0.4s;">
+      <p class="text-center text-lg text-gray-300">
+        สำหรับข้อมูลเพิ่มเติม ติดต่อเราได้ที่ 
+        <a href="mailto:panawut.frost@g.swu.ac.th" class="text-[#f37335] hover:underline">panawut.frost@g.swu.ac.th</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>

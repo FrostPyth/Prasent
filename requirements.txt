@@ -1,0 +1,9 @@
+Flask
+torch
+librosa
+numpy
+transformers
+deepface
+pythainlp
+opencv-python
+whisper

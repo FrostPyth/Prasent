@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasent - คำแนะนำเกี่ยวกับการฝึกฝนทักษะนำเสนอ</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nunito Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+  
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+         <a href="/index" class="hover:text-[#f37335] transition">เครื่องมือวิเคราะห์การนำเสนอ</a>
+         <a href="/about" class="hover:text-[#f37335] transition">เกี่ยวกับเรา</a>
+         <a href="/results" class="hover:text-[#f37335] transition">ผลการวิเคราะห์</a>
+         <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <header class="mb-10 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">คำแนะนำเกี่ยวกับการฝึกฝนทักษะนำเสนอ</h1>
+      <p class="text-lg text-gray-300">
+        คำแนะนำเหล่านี้ได้รับการจัดทำขึ้นโดยอิงจากแหล่งความรู้และแนวทางที่เชื่อถือได้สำหรับผู้พูดภาษาไทย
+        เพื่อให้คุณได้ทดลองฝึกซ้อมและพัฒนาทักษะการนำเสนออย่างมีประสิทธิภาพ
+      </p>
+    </header>
+    
+    <!-- Practice Exercises Section -->
+    <section class="fade-up" style="animation-delay: 0.2s;">
+      <h2 class="text-3xl font-bold text-[#f37335] mb-6 text-center">แบบฝึกซ้อมการนำเสนอ</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Exercise Course Card 1 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg hover:shadow-xl transition">
+          <h3 class="text-2xl font-bold text-[#f37335] mb-2">แบบฝึกซ้อม 1: การวางแผนการนำเสนอ</h3>
+          <p class="text-gray-300 mb-4">
+            คอร์สนี้จะช่วยให้คุณเลือกหัวข้อและวางแผนการนำเสนออย่างเป็นระบบ
+            พร้อมแนวทางการจัดโครงสร้างและเนื้อหาที่ตอบโจทย์
+          </p>
+          <!-- Embedded Video Tutorial -->
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <!-- Replace VIDEO_ID_1 with your actual YouTube video ID -->
+            <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/s2FQQOmwslU" title="Video Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <a href="/course/1" class="block bg-[#f37335] text-black font-semibold py-2 px-4 text-center rounded shadow hover:opacity-90 transition">
+            เริ่มทำแบบฝึกซ้อมนี้
+          </a>
+        </div>
+        <!-- Exercise Course Card 2 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg hover:shadow-xl transition">
+          <h3 class="text-2xl font-bold text-[#f37335] mb-2">แบบฝึกซ้อม 2: เทคนิคการพูด</h3>
+          <p class="text-gray-300 mb-4">
+            เรียนรู้วิธีปรับปรุงโทนเสียงและการออกเสียง
+            คอร์สนี้มีเทคนิคและตัวอย่างการพูดเพื่อเพิ่มความชัดเจนและความมั่นใจ
+          </p>
+          <!-- Embedded Video Tutorial -->
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <!-- Replace VIDEO_ID_2 with your actual YouTube video ID -->
+            <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/V4_Yfiv-nKc" title="Video Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <a href="/course/2" class="block bg-[#f37335] text-black font-semibold py-2 px-4 text-center rounded shadow hover:opacity-90 transition">
+            เริ่มทำแบบฝึกซ้อมนี้
+          </a>
+        </div>
+        <!-- Exercise Course Card 3 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg hover:shadow-xl transition">
+          <h3 class="text-2xl font-bold text-[#f37335] mb-2">แบบฝึกซ้อม 3: การใช้ภาษากายและการแสดงออก</h3>
+          <p class="text-gray-300 mb-4">
+            คอร์สนี้จะช่วยให้คุณฝึกการใช้ภาษากายและการแสดงออกทางใบหน้า
+            เพื่อเสริมสร้างความประทับใจและความน่าเชื่อถือในทุกการนำเสนอ
+          </p>
+          <!-- Embedded Video Tutorial -->
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <!-- Replace VIDEO_ID_3 with your actual YouTube video ID -->
+            <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/1SpdZdd6Vgs" title="Video Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <a href="/course/3" class="block bg-[#f37335] text-black font-semibold py-2 px-4 text-center rounded shadow hover:opacity-90 transition">
+            เริ่มทำแบบฝึกซ้อมนี้
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Back to Homepage -->
+    <section class="fade-up mt-12" style="animation-delay: 0.8s;">
+      <p class="text-center">
+        <a href="/" class="text-[#f37335] hover:underline">← กลับสู่หน้าหลัก</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>

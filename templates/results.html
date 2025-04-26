@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasent - ผลการวิเคราะห์</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nunito Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: -1;
+    }
+    @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px);} 100% { opacity: 1; transform: translateY(0);} }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+        <a href="/index" class="hover:text-[#f37335] transition">เครื่องมือฝึก</a>
+        <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+        <a href="/about" class="hover:text-[#f37335] transition">เกี่ยวกับเรา</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="fade-up text-center text-xl">
+      ⏳ กำลังประมวลผล กรุณารอซักครู่...
+    </div>
+
+    <!-- Results Container -->
+    <div id="results-container" class="hidden fade-up">
+      <h1 class="text-4xl font-bold mb-6 text-center">ผลการวิเคราะห์</h1>
+
+      <!-- Overall Score -->
+      <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg mb-6">
+        <h2 class="text-2xl font-bold text-[#f37335] mb-4">คะแนนรวม</h2>
+        <p class="text-white text-4xl font-semibold text-center">
+          <span id="overall-score">0</span>%
+        </p>
+        <p class="text-gray-300 mt-2 text-center">คะแนนเฉลี่ยจาก Pace, Filler, Confidence, Emotion</p>
+      </div>
+
+      <!-- Grouped Results -->
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Basic Info -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg">
+          <h2 class="text-2xl font-bold text-[#f37335] mb-4">ข้อมูลพื้นฐาน</h2>
+          <p class="mb-2"><strong>ชื่อไฟล์:</strong> <span id="file-name"></span></p>
+          <p class="mb-2"><strong>บทพูด:</strong> <span id="transcription"></span></p>
+        </div>
+
+        <!-- Speech Metrics -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg">
+          <h2 class="text-2xl font-bold text-[#f37335] mb-4">การวิเคราะห์การพูด</h2>
+          <p class="mb-1"><strong>ความมั่นใจ:</strong> <span id="speaker-confidence"></span>%</p>
+          <p class="text-gray-400 text-sm mb-4">
+            Parameter: พลังเสียง RMS ÷ threshold(0.05) × 100
+          </p>
+          <p class="mb-1"><strong>ความเร็ว:</strong> <span id="pace"></span> คำ/นาที</p>
+          <p class="text-gray-400 text-sm mb-4">
+            Parameter: (จำนวนคำ ÷ ระยะเวลา(วินาที)) × 60
+          </p>
+          <p class="mb-1"><strong>โทนเสียง:</strong> <span id="tone"></span></p>
+          <p class="text-gray-400 text-sm mb-4">
+            Parameter: pitch เฉลี่ย &lt;150Hz=ต่ำ, 150–250Hz=กลาง, &gt;250Hz=สูง
+          </p>
+          <p class="mb-1"><strong>คำฟุ่มเฟือยที่พบ:</strong> <span id="filler-count"></span> ครั้ง</p>
+          <p class="text-gray-400 text-sm mb-4">
+            Parameter: นับคำจากรายการฟิลเลอร์ (อืม, เอ่อ, ครับ, ฯลฯ)
+          </p>
+        </div>
+
+        <!-- Emotion Analysis -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg md:col-span-2">
+          <h2 class="text-2xl font-bold text-[#f37335] mb-4">การวิเคราะห์อารมณ์</h2>
+          <p class="mb-1"><strong>อารมณ์จากเสียง:</strong> <span id="emotion"></span></p>
+          <p class="text-gray-400 text-sm mb-4">
+            Parameter: Sentiment analysis บนข้อความ (nlptown/bert)
+          </p>
+          <p class="mb-1"><strong>อารมณ์ใบหน้า:</strong> <span id="facial-expression"></span></p>
+          <p class="text-gray-400 text-sm">
+            Parameter: DeepFace วิเคราะห์อารมณ์จากภาพนิ่ง
+          </p>
+        </div>
+      </div>
+
+      <!-- Link to Advice -->
+      <p class="mt-8 text-center">
+        <a href="/advice" class="text-[#f37335] hover:underline">ดูคำแนะนำและวิดีโอแนะนำ</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Inline JavaScript -->
+  <script>
+    function checkResults() {
+      fetch('/check_results')
+        .then(r => r.json())
+        .then(data => {
+          if (data.ready) {
+            loadResults();
+          } else {
+            setTimeout(checkResults, 2000);
+          }
+        })
+        .catch(console.error);
+    }
+
+    function loadResults() {
+      fetch('/get_results')
+        .then(r => r.json())
+        .then(data => {
+          // hide loader, show results
+          document.getElementById('loading-indicator').style.display = 'none';
+          document.getElementById('results-container').classList.remove('hidden');
+
+          // populate fields
+          document.getElementById('overall-score').innerText     = data.overall_score || 0;
+          document.getElementById('file-name').innerText         = data.file_name || '';
+          document.getElementById('transcription').innerText     = data.transcription || '';
+          document.getElementById('speaker-confidence').innerText = data.speaker_confidence || 0;
+          document.getElementById('pace').innerText              = data.pace || 0;
+          document.getElementById('tone').innerText              = data.tone || '';
+          document.getElementById('filler-count').innerText      = data.filler_words_count || 0;
+          document.getElementById('emotion').innerText           = data.emotion || '';
+          document.getElementById('facial-expression').innerText = data.facial_expression || '';
+        })
+        .catch(console.error);
+    }
+
+    window.onload = checkResults;
+  </script>
+</body>
+</html>

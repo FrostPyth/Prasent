@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasent - แบบฝึกซ้อม 1: การวางแผนการนำเสนอ</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nunito Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+  
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+         <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+         <a href="/about" class="hover:text-[#f37335] transition">เกี่ยวกับเรา</a>
+         <a href="/results" class="hover:text-[#f37335] transition">ผลการวิเคราะห์</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <header class="mb-10 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">แบบฝึกซ้อม 1: การวางแผนการนำเสนอ</h1>
+      <p class="text-lg text-gray-300">
+        คอร์สนี้จะช่วยให้คุณวางแผนการนำเสนออย่างเป็นระบบ พร้อมเทคนิคการจัดโครงสร้างเนื้อหาที่ตอบโจทย์
+      </p>
+    </header>
+    
+    <!-- Detailed Instructions -->
+    <section class="fade-up" style="animation-delay: 0.2s;">
+      <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg">
+        <h2 class="text-2xl font-bold text-[#f37335] mb-4">ขั้นตอนและเทคนิค</h2>
+        <ol class="list-decimal list-inside text-gray-300 space-y-2">
+          <li><strong>เลือกหัวข้อและวัตถุประสงค์:</strong> เลือกหัวข้อที่เหมาะสมและระบุวัตถุประสงค์การนำเสนอ (ให้ข้อมูล, ชักจูง หรือสร้างแรงบันดาลใจ)</li>
+          <li><strong>จัดทำโครงร่าง:</strong> แบ่งเนื้อหาเป็นบทนำ เนื้อหา และบทสรุป เพื่อความชัดเจนและเป็นระบบ</li>
+          <li><strong>กำหนดจุดสำคัญ:</strong> ระบุข้อมูลหรือข้อสรุปสำคัญ ที่ต้องเน้นในแต่ละส่วน</li>
+          <li><strong>วางแผนสื่อประกอบ:</strong> เลือกและจัดเตรียมสไลด์, รูปภาพ, หรือวิดีโอให้เหมาะสมกับเนื้อหา</li>
+          <li><strong>ทบทวนและปรับปรุง:</strong> เขียนสคริปต์หรือบันทึกเสียง/วิดีโอทดลองแล้วประเมินความสมบูรณ์ของแผนการนำเสนอ</li>
+        </ol>
+        <div class="mt-6">
+          <h3 class="text-xl font-bold text-[#f37335] mb-2">วิดีโอแนะนำ</h3>
+          <div class="aspect-w-16 aspect-h-9">
+            <!-- Replace VIDEO_ID_1 with the actual YouTube video ID -->
+            <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/s2FQQOmwslU" title="วิดีโอแนะนำการวางแผนการนำเสนอ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="mt-6 border-t border-gray-700 pt-4">
+          <p class="text-gray-400 text-sm">
+            <strong>แหล่งที่มา:</strong> "Effective Public Speaking", คณะนิเทศศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย, 2020.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Back Link -->
+    <section class="mt-10 fade-up" style="animation-delay: 0.4s;">
+      <p class="text-center">
+        <a href="/courses" class="text-[#f37335] hover:underline">← กลับไปยังหลักสูตรฝึกทั้งหมด</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>

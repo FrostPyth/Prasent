@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasent - แบบฝึกซ้อม 2: เทคนิคการพูด</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+  
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+         <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+         <a href="/about" class="hover:text-[#f37335] transition">เกี่ยวกับเรา</a>
+         <a href="/results" class="hover:text-[#f37335] transition">ผลการวิเคราะห์</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <header class="mb-10 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">แบบฝึกซ้อม 2: เทคนิคการพูด</h1>
+      <p class="text-lg text-gray-300">
+        คอร์สนี้มุ่งเน้นให้คุณฝึกปรับปรุงวิธีการพูดของคุณ ด้วยการออกเสียงและการใช้โทนเสียงอย่างมีประสิทธิภาพ
+      </p>
+    </header>
+    <section class="fade-up" style="animation-delay: 0.2s;">
+      <div class="bg-gray-900 p-6 rounded-lg border border-gray-700 shadow-lg">
+        <h2 class="text-2xl font-bold text-[#f37335] mb-4">ขั้นตอนและเทคนิค</h2>
+        <ol class="list-decimal list-inside text-gray-300 space-y-2">
+          <li>เริ่มด้วยการวอร์มอัพเสียง โดยออกเสียงตัวอักษรและวลีต่าง ๆ เพื่อเพิ่มความชัดเจน</li>
+          <li>ฝึกการปรับเปลี่ยนระดับเสียงและโทนเสียงในส่วนที่ต่างกันของการนำเสนอ</li>
+          <li>บันทึกตัวอย่างการพูดแล้วฟังเพื่อตรวจสอบความสมดุลของเสียง</li>
+          <li>ทดลองใช้เทคนิคการเน้นเสียงในจุดสำคัญของเนื้อหา</li>
+          <li>เปรียบเทียบกับแบบฝึกที่มีคำแนะนำจากผู้เชี่ยวชาญ</li>
+        </ol>
+        <div class="mt-6">
+          <h3 class="text-xl font-bold text-[#f37335] mb-2">วิดีโอแนะนำ</h3>
+          <div class="aspect-w-16 aspect-h-9">
+            <!-- Replace VIDEO_ID_2 with your actual YouTube video ID -->
+            <iframe class="w-full h-full rounded" src="https://www.youtube.com/embed/V4_Yfiv-nKc" title="วิดีโอแนะนำเทคนิคการพูด" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="mt-6 border-t border-gray-700 pt-4">
+          <p class="text-gray-400 text-sm">
+            <strong>แหล่งที่มา:</strong> "Techniques of Public Speaking" โดย สมาคมนักพูดไทย, 2021.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="mt-10 fade-up" style="animation-delay: 0.4s;">
+      <p class="text-center">
+        <a href="/courses" class="text-[#f37335] hover:underline">← กลับไปยังหลักสูตรฝึกทั้งหมด</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>

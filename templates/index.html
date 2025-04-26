@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasent - ตัวช่วยฝึกการนำเสนอ</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nunito Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    /* Blurred Background with Logo */
+    .bg-blur {
+      background: url('{{ url_for("static", filename="prasent-logo.png") }}') center/cover no-repeat;
+      filter: blur(8px);
+      opacity: 0.2;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    /* Fade In Animation */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="bg-blur"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm border-b border-gray-800 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#f37335]">Prasent</a>
+      <div class="space-x-4">
+         <a href="/about" class="hover:text-[#f37335] transition">เกี่ยวกับเรา</a>
+         <a href="/results" class="hover:text-[#f37335] transition">ผลการวิเคราะห์</a>
+         <a href="/courses" class="hover:text-[#f37335] transition">หลักสูตรฝึก</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 pt-24 pb-12">
+    <header class="mb-10 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">ตัวช่วยฝึกการนำเสนอ</h1>
+      <p class="text-lg text-gray-300">
+        บันทึกวิดีโอและเสียงของคุณ จากนั้นรับคำแนะนำเพื่อพัฒนาทักษะการนำเสนอ
+      </p>
+    </header>
+
+    <!-- Recording Controls -->
+    <section class="mb-8 fade-up" style="animation-delay: 0.2s;">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+        <button id="start-recording" class="bg-[#f37335] text-black font-semibold py-3 px-6 rounded shadow hover:opacity-90 transition">
+          🎥 เริ่มบันทึก (วิดีโอ + เสียง)
+        </button>
+        <button id="stop-recording" disabled class="bg-gray-600 text-white font-semibold py-3 px-6 rounded shadow">
+          ⏹️ หยุดบันทึก
+        </button>
+      </div>
+      <p id="status" class="mt-4 text-center text-base">
+        กดที่ปุ่ม "เริ่มบันทึก" เพื่อเริ่มบันทึกวิดีโอและเสียง.
+      </p>
+      <!-- Timer Display -->
+      <p id="recording-timer" class="text-center text-base mt-2">ระยะเวลา: 00:00</p>
+    </section>
+
+    <!-- Video Preview -->
+    <section class="mb-8 fade-up" style="animation-delay: 0.4s;">
+      <div class="video-container mx-auto max-w-3xl">
+        <video id="preview" class="w-full rounded-lg shadow-lg" autoplay muted></video>
+      </div>
+    </section>
+
+    <!-- File Upload Form -->
+    <section class="mb-8 fade-up" style="animation-delay: 0.6s;">
+      <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" class="max-w-xl mx-auto bg-gray-900 p-6 rounded-lg border border-gray-700 shadow">
+        <label for="file-input" class="block mb-3 text-lg">📂 หรืออัพโหลดไฟล์เสียง/วิดีโอ:</label>
+        <input type="file" id="file-input" name="file" accept="audio/*,video/*" class="w-full mb-4 px-3 py-2 bg-gray-800 border border-gray-700 rounded">
+        <button type="submit" class="w-full bg-[#f37335] text-black font-semibold py-3 rounded shadow hover:opacity-90 transition">
+          อัพโหลดไฟล์
+        </button>
+      </form>
+    </section>
+
+    <!-- Loading Message -->
+    <p id="loading-message" class="text-center fade-up" style="animation-delay: 0.8s;">
+      การประมวลผลใช้เวลานานหน่อยนะ อดใจรอซักหน่อย.
+    </p>
+  </main>
+
+  <!-- JavaScript: Timer and recording functionality -->
+  <script>
+    const startButton = document.getElementById('start-recording');
+    const stopButton = document.getElementById('stop-recording');
+    const statusText = document.getElementById('status');
+    const uploadForm = document.getElementById('upload-form');
+    const loadingMessage = document.getElementById('loading-message');
+    const preview = document.getElementById('preview');
+    const timerDisplay = document.getElementById('recording-timer');
+
+    let mediaRecorder, recordedChunks = [], stream;
+    let recordingTimerInterval;
+    let recordingStartTime;
+
+    startButton.addEventListener('click', async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+        mediaRecorder = new MediaRecorder(stream);
+        recordedChunks = [];
+        mediaRecorder.onstart = () => {
+          statusText.textContent = "🎥 กำลังบันทึกวิดีโอและเสียง... กด 'หยุดบันทึก' เพื่อหยุด.";
+          startButton.disabled = true;
+          stopButton.disabled = false;
+          recordingStartTime = Date.now();
+          recordingTimerInterval = setInterval(() => {
+            const elapsed = Date.now() - recordingStartTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            timerDisplay.textContent = `ระยะเวลา: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+          }, 1000);
+        };
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+        };
+        mediaRecorder.onstop = async () => {
+          clearInterval(recordingTimerInterval);
+          if (recordedChunks.length === 0) {
+            statusText.textContent = "⚠️ ไม่ได้บันทึกวิดีโอ กรุณาลองใหม่.";
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            return;
+          }
+          const blob = new Blob(recordedChunks, { type: 'video/webm' });
+          const formData = new FormData();
+          formData.append('file', blob, 'recording.webm');
+          statusText.textContent = "📤 กำลังอัพโหลดไฟล์...";
+          loadingMessage.style.display = "block";
+          try {
+            const response = await fetch('/upload', { method: 'POST', body: formData });
+            if (response.ok) {
+              window.location.href = '/results';
+            } else {
+              statusText.textContent = "❌ เกิดข้อผิดพลาดในการอัพโหลด กรุณาลองใหม่.";
+            }
+          } catch (error) {
+            statusText.textContent = "❌ ไม่สามารถอัพโหลดได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต.";
+            console.error(error);
+          }
+          startButton.disabled = false;
+          stopButton.disabled = true;
+          recordedChunks = [];
+          stream.getTracks().forEach(track => track.stop());
+          preview.srcObject = null;
+        };
+        mediaRecorder.start();
+      } catch (error) {
+        statusText.textContent = "⚠️ ไม่สามารถเข้าถึงกล้องหรือไมโครโฟน กรุณาอนุญาตการเข้าถึง.";
+        console.error(error);
+      }
+    });
+    
+    stopButton.addEventListener('click', () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        statusText.textContent = "⏳ กำลังประมวลผลไฟล์วิดีโอ...";
+      } else {
+        statusText.textContent = "⚠️ ยังไม่ได้บันทึก.";
+      }
+    });
+  </script>
+</body>
+</html>
