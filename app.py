@@ -18,7 +18,7 @@ from pythainlp.tokenize import word_tokenize
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_fallback")
-ALLOWED_EXTENSIONS = {'mp3', 'wav', 'mp4', 'webm'}
+ALLOWED_EXTENSIONS = {'mp3', 'wav', 'mp4', 'webm', 'm4a'}
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -80,7 +80,7 @@ def analyze_text_emotion(text):
 
 def detect_filler_words(text):
     words = word_tokenize(text, engine='newmm')
-    filler_words = ["อืม", "เอ่อ", "อ๊ะ", "อะ", "ครับผม", "ครับ", "ค่ะ", "นะครับ", "นะคะ", "ทำการ", "มีการ", "โดย"]
+    filler_words = ["อืม", "เอ่อ", "อ๊ะ", "อะ", "ครับผม", "ครับ", "ค่ะ", "นะครับ", "นะคะ", "ทำการ", "มีการ", "โดย", "แล้วก็"]
     return sum(1 for w in words if w in filler_words)
 
 def extract_frame(video_path):
@@ -274,17 +274,21 @@ def advice():
 def upload_file():
     if 'file' not in request.files:
         return "No file uploaded", 400
-    file = request.files['file']
-    if file.filename == '':
+    f = request.files['file']
+    if f.filename == '':
         return "No file selected", 400
-    if file and allowed_file(file.filename):
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                f"{int(time.time())}_{file.filename}")
-        file.save(filepath)
+    if f and allowed_file(f.filename):
+        dest = os.path.join(
+            app.config['UPLOAD_FOLDER'],
+            f"{int(time.time())}_{f.filename}"
+        )
+        f.save(dest)
+
         if os.path.exists("results.json"):
             os.remove("results.json")
-        threading.Thread(target=process_transcription, args=(filepath,)).start()
-        return "Processing...", 202
+        threading.Thread(target=process_transcription, args=(dest,)).start()
+
+        return redirect(url_for('results_page'))
     return "Invalid file type", 400
 
 @app.route('/check_results')
