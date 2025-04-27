@@ -1,7 +1,7 @@
 Flask
 torch
 librosa
-numpy
+numpy<2
 transformers
 tensorflow-cpu>=2.11.0,<2.12
 tf-keras
