@@ -3,7 +3,9 @@ torch
 librosa
 numpy
 transformers
+tensorflow-cpu>=2.11.0,<2.12
+tf-keras
 deepface
 pythainlp
 opencv-python
-whisper
+openai-whisper
