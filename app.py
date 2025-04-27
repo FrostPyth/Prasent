@@ -267,7 +267,7 @@ def course_detail(course_id):
         return render_template(f'course{course_id}.html')
 
 @app.route('/advice')
-def about():
+def advice():
     return render_template('advice.html')
 
 @app.route('/upload', methods=['POST'])
