@@ -17,7 +17,7 @@ from deepface import DeepFace
 from pythainlp.tokenize import word_tokenize
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_fallback")
 ALLOWED_EXTENSIONS = {'mp3', 'wav', 'mp4', 'webm'}
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 if not os.path.exists(UPLOAD_FOLDER):
@@ -260,6 +260,15 @@ def about():
 @app.route('/courses')
 def courses():
     return render_template('courses.html')
+
+@app.route('/courses/<int:course_id>')
+def course_detail(course_id):
+    if course_id in (1,2,3):
+        return render_template(f'course{course_id}.html')
+
+@app.route('/advice')
+def about():
+    return render_template('advice.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
