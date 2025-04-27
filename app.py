@@ -261,7 +261,7 @@ def about():
 def courses():
     return render_template('courses.html')
 
-@app.route('/courses/<int:course_id>')
+@app.route('/course/<int:course_id>')
 def course_detail(course_id):
     if course_id in (1,2,3):
         return render_template(f'course{course_id}.html')
