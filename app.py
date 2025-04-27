@@ -11,7 +11,7 @@ device_id = 0 if torch.cuda.is_available() else -1
 import whisper
 import librosa
 import numpy as np
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 from transformers import pipeline
 from deepface import DeepFace
 from pythainlp.tokenize import word_tokenize
